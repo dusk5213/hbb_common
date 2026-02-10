@@ -62,14 +62,75 @@ lazy_static::lazy_static! {
     static ref KEY_PAIR: Mutex<Option<KeyPair>> = Default::default();
     static ref USER_DEFAULT_CONFIG: RwLock<(UserDefaultConfig, Instant)> = RwLock::new((UserDefaultConfig::load(), Instant::now()));
     pub static ref NEW_STORED_PEER_CONFIG: Mutex<HashSet<String>> = Default::default();
-    pub static ref DEFAULT_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref OVERWRITE_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref DEFAULT_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+
+    // OVERWRITE 的优先级最高，编译后的设置不可更改
+    pub static ref DEFAULT_SETTINGS: RwLock<HashMap<String, String>> = {
+        RwLock::new([
+            // 允许传输音频
+            (keys::OPTION_ENABLE_AUDIO, "N"),
+            // 允许查看摄像头
+            (keys::OPTION_ENABLE_CAMERA, "N"),  
+        ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
+    };
+    pub static ref OVERWRITE_SETTINGS: RwLock<HashMap<String, String>> = {
+        RwLock::new([
+            // 禁用远程打印机
+            (keys::OPTION_ENABLE_REMOTE_PRINTER, "N"),
+            // ID服务器
+            (keys::OPTION_CUSTOM_RENDEZVOUS_SERVER, "rd.135v.cn"), 
+            // 中继服务器
+            (keys::OPTION_RELAY_SERVER, "rd.135v.cn"),
+            // API服务器
+            (keys::OPTION_API_SERVER, "https://rd.135v.cn"),
+            // KEY
+            (keys::OPTION_KEY, "NBalSbpxVWS3Ahw9Xlf7JVfZnWqwC3nlLBAkcs+iWGg="),
+            // 允许远程修改配置
+            (keys::OPTION_ALLOW_REMOTE_CONFIG_MODIFICATION, "Y"),
+            // 一次性密码为数字
+            (keys::OPTION_ALLOW_NUMERNIC_ONE_TIME_PASSWORD, "Y"),
+            // ICE_SERVER
+            (keys::OPTION_ICE_SERVERS, "stun://stun.135v.cn:3478,stun://stun.miwifi.com:3478,stun://stun.chat.bilibili.com:3478"),
+        ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
+    };
+
+    pub static ref DEFAULT_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = {
+        RwLock::new([
+            // 默认显示方式：适应窗口
+            (keys::OPTION_VIEW_STYLE, "adaptive"), 
+            // 静音
+            (keys::OPTION_DISABLE_AUDIO, "Y"), 
+        ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
+    };
     pub static ref OVERWRITE_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+
     pub static ref DEFAULT_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref OVERWRITE_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref BUILTIN_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+    pub static ref OVERWRITE_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = {
+        RwLock::new([
+            // 启动检查更新
+            (keys::OPTION_ENABLE_CHECK_UPDATE, "N"), 
+            // 自动更新
+            (keys::OPTION_ALLOW_AUTO_UPDATE, "N"),
+        ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
+    };
+
+    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> ={       
+        RwLock::new([
+            // 禁止安装
+            ("disable-installation", "Y"), 
+            // 仅被控端   incoming  仅主控端  outgoing
+            // ("conn-type", "outgoing"), 
+        ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
+    };
+    pub static ref BUILTIN_SETTINGS: RwLock<HashMap<String, String>> = {       
+        RwLock::new([
+            // 隐藏网络设置
+            (keys::OPTION_HIDE_NETWORK_SETTINGS, "Y"), 
+            // 禁止更改ID
+            (keys::OPTION_DISABLE_CHANGE_ID, "Y"),
+            // 隐藏打印机设置
+            (keys::OPTION_HIDE_REMOTE_PRINTER_SETTINGS, "Y"),
+        ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
+    };
 }
 
 #[cfg(target_os = "android")]
@@ -106,8 +167,8 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["rd.135v.cn"];
-pub const RS_PUB_KEY: &str = "NBalSbpxVWS3Ahw9Xlf7JVfZnWqwC3nlLBAkcs+iWGg=";
+pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
+pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
