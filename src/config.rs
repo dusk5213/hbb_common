@@ -89,7 +89,7 @@ lazy_static::lazy_static! {
             // 一次性密码为数字
             (keys::OPTION_ALLOW_NUMERNIC_ONE_TIME_PASSWORD, "Y"),
             // ICE_SERVER
-            (keys::OPTION_ICE_SERVERS, "stun://stun.135v.cn:3478,stun://stun.miwifi.com:3478,stun://stun.chat.bilibili.com:3478"),
+            (keys::OPTION_ICE_SERVERS, "stun://stun.135v.cn:3478,stun://stun.chat.bilibili.com:3478"),
         ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
     };
 
@@ -116,7 +116,7 @@ lazy_static::lazy_static! {
     pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> ={       
         RwLock::new([
             // 禁止安装
-            ("disable-installation", "Y"), 
+            ("disable-installation", "N"), 
             // 仅被控端   incoming  仅主控端  outgoing
             // ("conn-type", "outgoing"), 
         ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
