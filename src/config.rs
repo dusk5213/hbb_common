@@ -89,7 +89,7 @@ lazy_static::lazy_static! {
             // 一次性密码为数字
             (keys::OPTION_ALLOW_NUMERNIC_ONE_TIME_PASSWORD, "Y"),
             // ICE_SERVER
-            (keys::OPTION_ICE_SERVERS, "stun://stun.135v.cn:3478,stun://stun.chat.bilibili.com:3478"),
+            (keys::OPTION_ICE_SERVERS, "stun://stun.135v.cn:3478,stun://stun.135v.cn:43478,stun://stun.chat.bilibili.com:3478"),
         ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
     };
 
