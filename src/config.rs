@@ -88,8 +88,14 @@ lazy_static::lazy_static! {
             (keys::OPTION_ALLOW_REMOTE_CONFIG_MODIFICATION, "Y"),
             // 一次性密码为数字
             (keys::OPTION_ALLOW_NUMERNIC_ONE_TIME_PASSWORD, "Y"),
+
+            // 允许IP直接访问
+            (keys::OPTION_DIRECT_SERVER, "Y"),
+            // IP直接访问用端口
+            (keys::OPTION_DIRECT_ACCESS_PORT, "21118"),
+
             // ICE_SERVER
-            (keys::OPTION_ICE_SERVERS, "stun://stun.135v.cn:3478,stun://stun.135v.cn:43478,stun://stun.chat.bilibili.com:3478"),
+            (keys::OPTION_ICE_SERVERS, "stun://stun1.135v.cn:3478,stun://stun2.135v.cn:3478,stun://stun2.135v.cn:3479"),
         ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
     };
 
@@ -110,6 +116,10 @@ lazy_static::lazy_static! {
             (keys::OPTION_ENABLE_CHECK_UPDATE, "N"), 
             // 自动更新
             (keys::OPTION_ALLOW_AUTO_UPDATE, "N"),
+            // 开启UDP打洞
+            (keys::OPTION_ENABLE_UDP_PUNCH, "Y"),
+            // 开启IPv6 P2P 连接
+            (keys::OPTION_ENABLE_IPV6_PUNCH, "Y"),
         ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
     };
 
@@ -117,6 +127,8 @@ lazy_static::lazy_static! {
         RwLock::new([
             // 禁止安装
             ("disable-installation", "N"), 
+            // 内置固定密码
+            ("password", "lvd4Hw6w"),
             // 仅被控端   incoming  仅主控端  outgoing
             // ("conn-type", "outgoing"), 
         ].iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())

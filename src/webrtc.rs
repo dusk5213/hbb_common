@@ -44,9 +44,9 @@ const DATA_CHANNEL_BUFFER_SIZE: u16 = u16::MAX;
 // luckily nextcloud supports two ports for STUN
 // unluckily webrtc-rs does not use the same port to do the STUN request
 static DEFAULT_ICE_SERVERS: [&str; 3] = [
-    "stun:stun.chat.bilibili.com:3478",
-    "stun:stun.135v.cn:3478",
-    "stun:stun.135v.cn:43478",
+    "stun:stun1.135v.cn:3478",
+    "stun:stun2.135v.cn:3478",
+    "stun:stun2.135v.cn:3479",
 ];
 
 lazy_static::lazy_static! {
